@@ -41,7 +41,6 @@ Route::middleware(['custom-auth'])->group(function (){
     Route::resource('/pengabdian', \App\Http\Controllers\PengabdianController::class)->except(['show']);
     Route::resource('/paper-ilmiah', \App\Http\Controllers\PaperIlmiahController::class)->except(['show']);
     Route::resource('/penjaminan-mutu', \App\Http\Controllers\PenjaminanMutuController::class)
-        ->middleware('role:admin')
         ->except(['show']);
 
     Route::resource('/dokumen-mutu', \App\Http\Controllers\DokumenMutuController::class);

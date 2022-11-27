@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('penjaminan_mutu', function (Blueprint $table) {
             //
-            $table->string('icon');
+            $table->string('icon')->nullable();
         });
     }
 

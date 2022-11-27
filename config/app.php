@@ -175,6 +175,13 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\DokumenMutuProvider::class,
+        App\Providers\AuditProvider::class,
+        App\Providers\PenjaminanMutuProvider::class,
+
+
+        
+
     ],
 
     /*
@@ -229,7 +236,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'AuthUser' => App\Helper\AuthUser::class,
     ],
 
 ];

@@ -16,7 +16,7 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('custom-auth');
     }
 
     /**
@@ -30,15 +30,9 @@ class HomeController extends Controller
         $totalFileDokumen = FileDokumen::all()->count();
         $totalPenjaminanMutu = PenjaminanMutu::all()->count();
         $pengumuman = Pengumuman::paginate(3);
-        $penelitian = Penelitian::select(DB::raw('count(id) as `data`'), DB::raw("DATE_FORMAT(created_at, '%M') name_month"), DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
-            ->groupby('year', 'month')
-            ->get();
-        $pengabdian = Pengabdian::select(DB::raw('count(id) as `data`'), DB::raw("DATE_FORMAT(created_at, '%M') name_month"), DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
-            ->groupby('year', 'month')
-            ->get();
-        $paperIlmiah = PaperIlmiah::select(DB::raw('count(id) as `data`'), DB::raw("DATE_FORMAT(created_at, '%M') name_month"), DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
-            ->groupby('year', 'month')
-            ->get();
+        $penelitian = Penelitian::get();
+        $pengabdian = Pengabdian::get();
+        $paperIlmiah = PaperIlmiah::get();
         return view('home', compact(
             'totalFileDokumen',
             'totalPenjaminanMutu',
