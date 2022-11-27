@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('kriteria');
             $table->string('link');
             $table->boolean('publis')->default(0);
-            $table->string('owner');
+            $table->integer('owner');
             $table->timestamps();
         });
     }

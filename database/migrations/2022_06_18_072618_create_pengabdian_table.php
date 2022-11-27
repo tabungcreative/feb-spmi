@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->string('sebagai');
             $table->boolean('publis')->default(0);
-            $table->string('owner');
+            $table->integer('owner');
             $table->timestamps();
         });
     }
