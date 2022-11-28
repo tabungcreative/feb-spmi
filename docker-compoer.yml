@@ -1,0 +1,27 @@
+version: "3"
+services:
+    feb-spmi:
+        image: ahmdrifai/feb-spmi:prod
+        container_name: feb-spmi
+        restart: unless-stopped
+        tty: true
+        env_file: .env
+        networks:
+            - feb-spmi-prod
+
+    feb-spmi-webserver:
+        image: ahmdrifai/feb-spmi-webserver:prod
+        container_name: feb-spmi-webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8003:80"
+        depends_on:
+            - feb-spmi
+        networks:
+            - feb-spmi-prod
+
+#Docker Networks
+networks:
+    feb-spmi-prod:
+        driver: bridge

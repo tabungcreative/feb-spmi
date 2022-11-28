@@ -37,6 +37,7 @@
                     <th>Jumlah</th>
                     <th>Sebagai</th>
                     <th>Publis</th>
+                    <th>Owner</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -51,6 +52,7 @@
                         <td>Rp.{{ number_format($value->jumlah) }}</td>
                         <td>{{ $value->sebagai }}</td>
                         <td><span class="badge bg-label-primary me-1">Active</span></td>
+                        <th>{{ $value->owner }}</th>
                         <td class="d-flex">
                             <a class="btn btn-sm btn-primary mx-1" href="{{ route('pengabdian.edit', $value->id) }}">
                                 <i class="bx bx-edit-alt me-1"></i> Edit

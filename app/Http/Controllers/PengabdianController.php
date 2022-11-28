@@ -31,7 +31,7 @@ class PengabdianController extends Controller
         $key = $request->query('key') ?? '';
         $size = $request->query('size') ?? 10;
         if (in_array('admin-spmi', $owner->roles)) {
-            $data = $this->pengabdianService->listByNidn($owner->id, $key, $size);
+            $data = $this->pengabdianService->listByNidn($owner->name, $key, $size);
         } else {
             $data = $this->pengabdianService->list($key, $size);
         }
@@ -49,7 +49,7 @@ class PengabdianController extends Controller
         $owner = AuthUser::user() ?? null;
 
         try {
-            $this->pengabdianService->add($request, $owner->id);
+            $this->pengabdianService->add($request, $owner->name);
             return response()->redirectTo(route('pengabdian.index'))->with('success', 'Berhasil menambah pengabdian baru');
         } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());

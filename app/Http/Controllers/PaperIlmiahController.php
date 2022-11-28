@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvariantException;
+use App\Helper\AuthUser;
 use App\Http\Requests\PaperIlmiahAddRequest;
 use App\Http\Requests\PaperIlmiahUpdateRequest;
 use App\Models\PaperIlmiah;
@@ -24,10 +25,16 @@ class PaperIlmiahController extends Controller
 
     public function index(Request $request)
     {
+        $owner = AuthUser::user() ?? null;
+
         $title = $this->title;
         $key = $request->query('key') ?? '';
         $size = $request->query('size') ?? 10;
-        $data = $this->paperIlmiahService->list($key, $size);
+        if (in_array('admin-spmi', $owner->roles)) {
+            $data = $this->paperIlmiahService->listByNidn($owner->name, $key, $size);
+        } else {
+            $data = $this->paperIlmiahService->list($key, $size);
+        }
         return response()->view('paper-ilmiah.index', compact('title', 'data'));
     }
 
@@ -39,9 +46,9 @@ class PaperIlmiahController extends Controller
 
     public function store(PaperIlmiahAddRequest $request)
     {
-        $owner = Auth::user()->dosen->nidn ?? null;
+        $owner = AuthUser::user() ?? null;
         try {
-            $this->paperIlmiahService->add($request, $owner);
+            $this->paperIlmiahService->add($request, $owner->name);
             return response()->redirectTo(route('paper-ilmiah.index'))->with('success', 'Jurnal ilmiah berhasil ditambahkan');
         }catch (InvariantException $exception) {
             return redirect()->back()->with('error', 'Gagal menambah jurnal ilmiah')->withInput($request->all());

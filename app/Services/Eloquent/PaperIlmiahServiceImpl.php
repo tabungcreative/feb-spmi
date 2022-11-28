@@ -26,12 +26,6 @@ class PaperIlmiahServiceImpl implements PaperIlmiahService
         $kriteria = $request->input('kriteria');
         $link = $request->input('link');
 
-        $dosen = Dosen::find($owner);
-
-        if ($dosen == null) {
-            throw new InvariantException('Gagal menemukan owner pengabdian');
-        }
-
         try {
             DB::beginTransaction();
             $papaerIlmiah = new PaperIlmiah([
@@ -43,10 +37,12 @@ class PaperIlmiahServiceImpl implements PaperIlmiahService
                 'sebagai' => $sebagai,
                 'indexs' => $indexs,
                 'kriteria' => $kriteria,
-                'link' => $link
+                'link' => $link,
+                'owner' => $owner
             ]);
 
-            $dosen->paperIlmiah()->save($papaerIlmiah);
+            $papaerIlmiah->save();
+
             DB::commit();
         }catch (\Exception $exception) {
             DB::rollBack();
@@ -62,6 +58,15 @@ class PaperIlmiahServiceImpl implements PaperIlmiahService
             ->orderBy('created_at', 'DESC')->paginate($size);
 
         return $paperIlmiah;
+    }
+
+    function listByNidn(string $owner, string $key = '', int $size = 10): LengthAwarePaginator
+    {
+        $penelitian = PaperIlmiah::where('owner', $owner)
+            ->where('judul', 'like', '%' . $key . '%')
+            ->orderBy('created_at', 'DESC')->paginate($size);
+
+        return $penelitian;
     }
 
     function update(PaperIlmiahUpdateRequest $request, int $id): PaperIlmiah

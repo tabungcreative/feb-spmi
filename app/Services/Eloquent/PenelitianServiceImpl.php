@@ -33,7 +33,7 @@ class PenelitianServiceImpl implements PenelitianService
                 'jumlah' => $jumlah,
                 'sebagai' => $sebagai,
                 'publis' => false,
-                'owner' => (int) $owner,
+                'owner' => $owner,
             ]);
             $penelitian->save();
             DB::commit();

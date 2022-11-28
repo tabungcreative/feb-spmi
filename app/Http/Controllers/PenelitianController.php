@@ -34,7 +34,7 @@ class PenelitianController extends Controller
         $size = $request->query('size') ?? 10;
 
         if (in_array('admin-spmi', $owner->roles)) {
-            $data = $this->penelitianService->listByNidn($owner->id, $key, $size);
+            $data = $this->penelitianService->listByNidn($owner->name, $key, $size);
         } else {
             $data = $this->penelitianService->list($key, $size);
         }
@@ -53,7 +53,7 @@ class PenelitianController extends Controller
         $owner = AuthUser::user() ?? null;
 
         try {
-            $this->penelitianService->add($request, $owner->id);
+            $this->penelitianService->add($request, $owner->name);
             return response()->redirectTo(route('penelitian.index'))->with('success', 'Berhasil menambah penelitian baru');
         } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());

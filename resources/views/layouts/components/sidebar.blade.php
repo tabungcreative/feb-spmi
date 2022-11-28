@@ -1,9 +1,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu text-white" style="background-color:#bf0000;color:#fff;">
     <div class="app-brand demo">
         <a href="home" class="app-brand-link">
-              <span class="app-brand-logo demo">
-              </span>
-            <span class="app-brand-text demo menu-text text-white fw-bolder ms-2 text-uppercase">SPMI</span>
+            <img src="https://is3.cloudhost.id/storage-feb/logo-sistem/logo-spmifeb-putih.png" class="img-fluid me-3" width="150px">
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

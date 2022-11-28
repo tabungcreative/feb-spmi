@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class PengabdianServiceImpl implements PengabdianService
 {
 
-    function add(PengabdianAddRequest $request, int $owner): Pengabdian
+    function add(PengabdianAddRequest $request, $owner): Pengabdian
     {
         $judul = $request->input('judul');
         $tanggalMulai = $request->input('tanggal_mulai');
@@ -35,7 +35,7 @@ class PengabdianServiceImpl implements PengabdianService
                 'jumlah' => $jumlah,
                 'sebagai' => $sebagai,
                 'publis' => false,
-                'owner' => (int) $owner,
+                'owner' => $owner,
             ]);
 
             $pengabdian->save();

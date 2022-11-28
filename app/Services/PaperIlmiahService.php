@@ -11,6 +11,7 @@ interface PaperIlmiahService
 {
     function add(PaperIlmiahAddRequest $request, string $owner) :PaperIlmiah;
     function list(string $key, int $size) : LengthAwarePaginator;
+    function listByNidn(string $owner, string $key, int $size): LengthAwarePaginator;
     function update(PaperIlmiahUpdateRequest $request, int $id) : PaperIlmiah;
     function delete(int $id): void;
     function publish(int $id): PaperIlmiah;
