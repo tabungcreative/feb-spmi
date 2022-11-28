@@ -1,4 +1,4 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu text-white" style="background-color:#00BFA6;color:#fff;">
+<aside id="layout-menu" class="layout-menu menu-vertical menu text-white" style="background-color:#bf0000;color:#fff;">
     <div class="app-brand demo">
         <a href="home" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -24,10 +24,9 @@
 
         @include('layouts.components.menu.penjaminan-mutu')
         @include('layouts.components.menu.paper-ilmiah')
-        @role('admin')
+        @can('admin')
         @include('layouts.components.menu.informasi')
-        @include('layouts.components.menu.manajemen')
-        @endrole
+        @endcan
 
     </ul>
 </aside>

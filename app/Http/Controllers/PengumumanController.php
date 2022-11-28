@@ -18,7 +18,7 @@ class PengumumanController extends Controller
 
     public function __construct(PengumumanService $pengumumanService)
     {
-        $this->middleware(['role:admin'])->only(['index']);
+        // $this->middleware(['role:admin'])->only(['index']);
         $this->pengumumanService = $pengumumanService;
     }
 
@@ -48,7 +48,7 @@ class PengumumanController extends Controller
             $pengumuman = $this->pengumumanService->add($judul, $isi);
             $this->pengumumanService->addFile($pengumuman->id, $file);
             return response()->redirectTo(route('pengumuman.index'))->with('success', 'Pengumuman berhasil ditambah');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', 'Gagal menambah pengumuman, terjadi kesalahan pada server')
                 ->withInput($request->all());
         }
@@ -80,7 +80,7 @@ class PengumumanController extends Controller
                 $this->pengumumanService->editFile($id, $file);
             }
             return response()->redirectTo(route('pengumuman.index'))->with('success', 'Berhasil mengubah pengumuman');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage())->withInput($request->all());
         }
     }
@@ -91,7 +91,7 @@ class PengumumanController extends Controller
         try {
             $this->pengumumanService->delete($id);
             return response()->redirectTo(route('pengumuman.index'))->with('success', 'Berhasil menghapus pengumuman');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }

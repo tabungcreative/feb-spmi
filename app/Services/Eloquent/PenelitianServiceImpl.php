@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class PenelitianServiceImpl implements PenelitianService
 {
 
-    function add(PenelitianAddRequest $request, string $owner): Penelitian
+    function add(PenelitianAddRequest $request, $owner): Penelitian
     {
         $judul = $request->input('judul');
         $tanggalMulai = $request->input('tanggal_mulai');
@@ -22,11 +22,6 @@ class PenelitianServiceImpl implements PenelitianService
         $sumber_dana = $request->input('sumber_dana');
         $jumlah = $request->input('jumlah');
         $sebagai = $request->input('sebagai');
-        $dosen = Dosen::find($owner);
-
-        if ($dosen == null) {
-            throw new InvariantException('Gagal menumukan owner penelitian');
-        }
 
         try {
             DB::beginTransaction();;
@@ -38,12 +33,11 @@ class PenelitianServiceImpl implements PenelitianService
                 'jumlah' => $jumlah,
                 'sebagai' => $sebagai,
                 'publis' => false,
+                'owner' => (int) $owner,
             ]);
-
-            $dosen->penelitian()->save($penelitian);
-
+            $penelitian->save();
             DB::commit();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             throw new InvariantException($exception->getMessage());
         }
@@ -53,7 +47,7 @@ class PenelitianServiceImpl implements PenelitianService
 
     function list(string $key = '', int $size = 10): LengthAwarePaginator
     {
-        $penelitian = Penelitian::where('judul', 'like', '%'. $key .'%')
+        $penelitian = Penelitian::where('judul', 'like', '%' . $key . '%')
             ->orderBy('created_at', 'DESC')->paginate($size);
 
         return $penelitian;
@@ -74,13 +68,13 @@ class PenelitianServiceImpl implements PenelitianService
             DB::beginTransaction();
             $penelitian->judul = $judul;
             $penelitian->tanggal_mulai = $tanggalMulai;
-            $penelitian->tanggal_selesai= $tanggalSelesai;
+            $penelitian->tanggal_selesai = $tanggalSelesai;
             $penelitian->sumber_dana = $sumber_dana;
             $penelitian->jumlah = $jumlah;
             $penelitian->sebagai = $sebagai;
             $penelitian->save();
             DB::commit();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
         }
 
@@ -92,7 +86,7 @@ class PenelitianServiceImpl implements PenelitianService
         $penelitian = Penelitian::find($id);
         try {
             $penelitian->delete();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new InvariantException($exception->getMessage());
         }
     }
@@ -104,7 +98,7 @@ class PenelitianServiceImpl implements PenelitianService
         try {
             $penelitian->publis = true;
             $penelitian->save();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new InvariantException($exception->getMessage());
         }
 
@@ -114,7 +108,7 @@ class PenelitianServiceImpl implements PenelitianService
     function listByNidn(string $owner, string $key = '', int $size = 10): LengthAwarePaginator
     {
         $penelitian = Penelitian::where('owner', $owner)
-            ->where('judul', 'like', '%'. $key .'%')
+            ->where('judul', 'like', '%' . $key . '%')
             ->orderBy('created_at', 'DESC')->paginate($size);
 
         return $penelitian;

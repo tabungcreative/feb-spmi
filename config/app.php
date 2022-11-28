@@ -178,10 +178,11 @@ return [
         App\Providers\DokumenMutuProvider::class,
         App\Providers\AuditProvider::class,
         App\Providers\PenjaminanMutuProvider::class,
-
-
-        
-
+        App\Providers\PengumumanProvider::class,
+        App\Providers\BeritaProvider::class,
+        App\Providers\PenelitianProvider::class,
+        App\Providers\PengabdianProvider::class,
+        App\Providers\PaperIlmiahProvider::class,
     ],
 
     /*

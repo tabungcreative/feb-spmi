@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class PengabdianServiceImpl implements PengabdianService
 {
 
-    function add(PengabdianAddRequest $request, string $owner): Pengabdian
+    function add(PengabdianAddRequest $request, int $owner): Pengabdian
     {
         $judul = $request->input('judul');
         $tanggalMulai = $request->input('tanggal_mulai');
@@ -24,12 +24,6 @@ class PengabdianServiceImpl implements PengabdianService
         $sumberDana = $request->input('sumber_dana');
         $jumlah = $request->input('jumlah');
         $sebagai = $request->input('sebagai');
-
-        $dosen = Dosen::find($owner);
-
-        if ($dosen == null) {
-            throw new InvariantException('Gagal menemukan owner pengabdian');
-        }
 
         try {
             DB::beginTransaction();
@@ -41,11 +35,13 @@ class PengabdianServiceImpl implements PengabdianService
                 'jumlah' => $jumlah,
                 'sebagai' => $sebagai,
                 'publis' => false,
+                'owner' => (int) $owner,
             ]);
 
-            $dosen->pengabdian()->save($pengabdian);
+            $pengabdian->save();
+
             DB::commit();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             throw new InvariantException($exception->getMessage());
         }
@@ -59,6 +55,15 @@ class PengabdianServiceImpl implements PengabdianService
             ->orderby('created_at', 'DESC')->paginate($size);
 
         return $pengabdian;
+    }
+
+    function listByNidn(string $owner, string $key = '', int $size = 10): LengthAwarePaginator
+    {
+        $penelitian = Pengabdian::where('owner', $owner)
+            ->where('judul', 'like', '%' . $key . '%')
+            ->orderBy('created_at', 'DESC')->paginate($size);
+
+        return $penelitian;
     }
 
     function update(PengabdianUpdateRequest $request, int $id): Pengabdian
@@ -80,7 +85,7 @@ class PengabdianServiceImpl implements PengabdianService
             $pengabdian->jumlah = $jumlah;
             $pengabdian->sebagai = $sebagai;
             $pengabdian->save();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new InvariantException($exception->getMessage());
         }
 
@@ -92,7 +97,7 @@ class PengabdianServiceImpl implements PengabdianService
         $pengabdian = Pengabdian::find($id);
         try {
             $pengabdian->delete();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new InvariantException($exception->getMessage());
         }
     }
@@ -104,7 +109,7 @@ class PengabdianServiceImpl implements PengabdianService
         try {
             $pengabdian->publis = true;
             $pengabdian->save();
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             throw new InvariantException($exception->getMessage());
         }
 

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User;
 
 class AuthController extends Controller
 {
-    private $redirectCallbak = '/';
+    private $redirectCallbak = '/home';
 
     public function login(Request $request)
     {

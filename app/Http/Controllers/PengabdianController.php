@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvariantException;
+use App\Helper\AuthUser;
 use App\Http\Requests\PenelitianAddRequest;
 use App\Http\Requests\PengabdianAddRequest;
 use App\Http\Requests\PengabdianUpdateRequest;
@@ -26,9 +27,14 @@ class PengabdianController extends Controller
     public function index(Request $request)
     {
         $title = $this->title;
+        $owner = AuthUser::user() ?? null;
         $key = $request->query('key') ?? '';
         $size = $request->query('size') ?? 10;
-        $data = $this->pengabdianService->list($key, $size);
+        if (in_array('admin-spmi', $owner->roles)) {
+            $data = $this->pengabdianService->listByNidn($owner->id, $key, $size);
+        } else {
+            $data = $this->pengabdianService->list($key, $size);
+        }
         return response()->view('pengabdian.index', compact('title', 'data'));
     }
 
@@ -40,12 +46,12 @@ class PengabdianController extends Controller
 
     public function store(PengabdianAddRequest $request)
     {
-        $owner = Auth::user()->dosen->nidn ?? null;
+        $owner = AuthUser::user() ?? null;
 
         try {
-            $penelitian = $this->pengabdianService->add($request, $owner);
+            $this->pengabdianService->add($request, $owner->id);
             return response()->redirectTo(route('pengabdian.index'))->with('success', 'Berhasil menambah pengabdian baru');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
@@ -63,7 +69,7 @@ class PengabdianController extends Controller
         try {
             $penelitian = $this->pengabdianService->update($request, $id);
             return response()->redirectTo(route('pengabdian.index'))->with('success', 'Berhasil mengubah pengabdian');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', 'Gagal mengubah pengabdian');
         }
     }
@@ -73,7 +79,7 @@ class PengabdianController extends Controller
         try {
             $this->pengabdianService->delete($id);
             return response()->redirectTo(route('pengabdian.index'))->with('success', 'Berhasil mengubah pengabdian');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', 'Hapus Gagal');
         }
     }

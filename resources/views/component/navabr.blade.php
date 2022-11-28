@@ -24,7 +24,7 @@
                     <a class="nav-link {{ Route::is('welcome') ? 'active' : '' }}" aria-current="page" href="#">Home</a>
                 </li>
             </ul>
-            <a href="/login" class="btn btn-outline-success px-4">Login</a>
+            <a href="{{ route('auth.login') }}" class="btn btn-outline-success px-4">Login</a>
         </div>
     </div>
 </nav>

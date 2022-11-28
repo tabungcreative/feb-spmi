@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
-Route::get('/', function() {
-    return AuthUser::user();
-});
+
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
+// Route::get('/', function () {
+//     return AuthUser::user();
+// });
 Route::get('/berita/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'detailBerita'])->name('detail-berita');
 Route::get('/pengumuman/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'detailPengumuman'])->name('detail-pengumuman');
 Route::get('/dokumen-mutu/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'dokumenMutu'])->name('welcome.dokumen-mutu');
@@ -35,7 +36,7 @@ Route::controller(AuthController::class)
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['custom-auth'])->group(function (){
+Route::middleware(['custom-auth'])->group(function () {
     Route::resource('/pengumuman', \App\Http\Controllers\PengumumanController::class);
     Route::resource('/penelitian', \App\Http\Controllers\PenelitianController::class)->except(['show']);
     Route::resource('/pengabdian', \App\Http\Controllers\PengabdianController::class)->except(['show']);

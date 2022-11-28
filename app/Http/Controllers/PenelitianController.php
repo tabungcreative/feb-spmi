@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvariantException;
+use App\Helper\AuthUser;
 use App\Http\Requests\PenelitianAddRequest;
 use App\Http\Requests\PenelitianUpdateRequest;
 use App\Models\Penelitian;
@@ -27,14 +28,14 @@ class PenelitianController extends Controller
 
     public function index(Request $request)
     {
-        $owner = Auth::user()->dosen->nidn ?? null;
+        $owner = AuthUser::user() ?? null;
         $title = $this->title;
         $key = $request->query('key') ?? '';
         $size = $request->query('size') ?? 10;
 
-        if (Auth::user()->getRoleNames()->first() == 'dosen'){
-            $data = $this->penelitianService->listByNidn($owner, $key, $size);
-        }else{
+        if (in_array('admin-spmi', $owner->roles)) {
+            $data = $this->penelitianService->listByNidn($owner->id, $key, $size);
+        } else {
             $data = $this->penelitianService->list($key, $size);
         }
         return response()->view('penelitian.index', compact('title', 'data'));
@@ -49,12 +50,12 @@ class PenelitianController extends Controller
 
     public function store(PenelitianAddRequest $request)
     {
-        $owner = Auth::user()->dosen->nidn ?? null;
+        $owner = AuthUser::user() ?? null;
 
         try {
-            $penelitian = $this->penelitianService->add($request, $owner);
+            $this->penelitianService->add($request, $owner->id);
             return response()->redirectTo(route('penelitian.index'))->with('success', 'Berhasil menambah penelitian baru');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
@@ -72,7 +73,7 @@ class PenelitianController extends Controller
         try {
             $penelitian = $this->penelitianService->update($request, $id);
             return response()->redirectTo(route('penelitian.index'))->with('success', 'Berhasil mengubah penelitian');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
@@ -82,7 +83,7 @@ class PenelitianController extends Controller
         try {
             $this->penelitianService->delete($id);
             return response()->redirectTo(route('penelitian.index'))->with('success', 'Berhasil mengubah penelitian');
-        }catch (InvariantException $exception) {
+        } catch (InvariantException $exception) {
             return redirect()->back()->with('error', 'Hapus Gagal');
         }
     }

@@ -2,7 +2,7 @@
     <span class="menu-header-text">Penjaminan Mutu</span>
 </li>
 
-@role('admin')
+@can('admin')
 <li class="menu-item {{ Route::is('audit.*') ? 'active' : '' }}">
     <a href="{{ route('audit.index') }}" class="menu-link text-white">
         <i class="menu-icon tf-icons bx bxs-file-archive"></i>
@@ -16,7 +16,7 @@
         <div data-i18n="Analytics">Item Penjaminan Mutu</div>
     </a>
 </li>
-@endrole
+@endcan
 
 
 @php($penjaminanMutu = \App\Models\PenjaminanMutu::orderBy('id', 'DESC')->paginate(100))

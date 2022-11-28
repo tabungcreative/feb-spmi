@@ -9,8 +9,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface PengabdianService
 {
-    function add(PengabdianAddRequest $request, string $owner): Pengabdian;
+    function add(PengabdianAddRequest $request, int $owner): Pengabdian;
     function list(string $key, int $size): LengthAwarePaginator;
+    function listByNidn(string $owner, string $key, int $size): LengthAwarePaginator;
     function update(PengabdianUpdateRequest $request, int $id): Pengabdian;
     function delete(int $id): void;
     function publis(int $id): Pengabdian;
