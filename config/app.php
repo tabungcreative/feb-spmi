@@ -183,6 +183,8 @@ return [
         App\Providers\PenelitianProvider::class,
         App\Providers\PengabdianProvider::class,
         App\Providers\PaperIlmiahProvider::class,
+        App\Providers\FileDokumenProvider::class,
+
     ],
 
     /*

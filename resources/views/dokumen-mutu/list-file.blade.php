@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
 
-        @role('admin')
+        @can('admin')
         <button
             type="button"
             class="btn btn-warning"
@@ -10,7 +10,7 @@
         >
             <i class="bx bx-plus-circle me-1"></i> Tambah Dokumen
         </button>
-        @endrole
+        @endcan
 
 
         <div class="table-responsive text-nowrap">
@@ -22,9 +22,9 @@
                     <th>Tahun</th>
                     <th>Nama</th>
                     <th>Dokumen</th>
-                    @role('admin')
+                    @can('admin')
                     <th>Actions</th>
-                    @endrole
+                    @endcan
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -37,7 +37,7 @@
                         <td>
                             <a href="{{ $value->file_url }}" target="_blank">Preview</a>
                         </td>
-                        @role('admin')
+                        @can('admin')
                         <td>
                             <div>
                                 {!! Form::open(['route' => ['file-dokumen.destroy', $value->id], 'method' => 'DELETE']) !!}
@@ -47,7 +47,7 @@
                                 {!! Form::close() !!}
                             </div>
                         </td>
-                        @endrole
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>
