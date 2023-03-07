@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Audit;
 use App\Models\Berita;
 use App\Models\DokumenMutu;
+use App\Models\Penelitian;
+use App\Models\Pengabdian;
 use App\Models\Pengumuman;
 use App\Models\PenjaminanMutu;
 use App\Services\DokumenMutuService;
@@ -22,7 +25,9 @@ class WelcomeController extends Controller
         $pengumuman = \App\Models\Pengumuman::paginate(3);
         $berita = \App\Models\Berita::orderBy('created_at', 'DESC')->paginate(10);
         $penjaminanMutu = \App\Models\PenjaminanMutu::orderBy('id', 'DESC')->paginate(100);
-        return response()->view('welcome.index' ,compact('pengumuman', 'berita', 'penjaminanMutu'));
+        $audit = Audit::paginate(10);
+
+        return response()->view('welcome.index' ,compact('pengumuman', 'berita', 'penjaminanMutu', 'audit'));
     }
 
     public function detailBerita($id) {
@@ -48,5 +53,17 @@ class WelcomeController extends Controller
     public function detailDokumenMutu($id) {
         $dokumenMutu = DokumenMutu::find($id);
         return response()->view('welcome.detail-dokumen-mutu', compact('dokumenMutu'));
+    }
+
+    public function penelitian() {
+        $penelitian = Penelitian::paginate(10);
+
+        return response()->view('welcome.penelitian', compact('penelitian'));
+    }
+
+    public function pengabdian() {
+        $pengabdian = Pengabdian::paginate(10);
+
+        return response()->view('welcome.pengabdian', compact('pengabdian'));
     }
 }

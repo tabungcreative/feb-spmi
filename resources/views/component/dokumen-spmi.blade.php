@@ -9,10 +9,10 @@
                 @foreach($penjaminanMutu as $value)
                 <div class="col-md">
                     <div class="card" style="width: 18rem;">
-                        <img src="{{ asset('pm-icon/' . $value->icon) }}" class="card-img-top" alt="...">
+                        {{-- <img src="{{ asset('pm-icon/' . $value->icon) }}" class="card-img-top" alt="..."> --}}
                         <div class="card-body">
                             <h5 class="card-title">{{ $value->nama }}</h5>
-                            <p class="card-text">{{ $value->keterangan }}</p>
+                            <p class="card-text">{!! $value->keterangan !!}</p>
                             <a href="{{ route('welcome.dokumen-mutu', $value->id) }}" class="btn btn-primary">Detail</a>
                         </div>
                     </div>

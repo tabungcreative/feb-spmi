@@ -44,7 +44,7 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
-                        Fakultas Komunikasi dan Sosial Politik
+                        Fakultas Ekonomi dan Bisnis
                     </h6>
                 </div>
                 <!-- Grid column -->

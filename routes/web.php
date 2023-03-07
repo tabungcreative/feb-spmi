@@ -22,6 +22,8 @@ Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index'])->name
 Route::get('/berita/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'detailBerita'])->name('detail-berita');
 Route::get('/pengumuman/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'detailPengumuman'])->name('detail-pengumuman');
 Route::get('/dokumen-mutu/detail/{id}', [\App\Http\Controllers\WelcomeController::class, 'dokumenMutu'])->name('welcome.dokumen-mutu');
+Route::get('/welcome/penelitian', [\App\Http\Controllers\WelcomeController::class, 'penelitian'])->name('welcome.penelitian');
+Route::get('/welcome/pengabdian', [\App\Http\Controllers\WelcomeController::class, 'pengabdian'])->name('welcome.pengabdian');
 
 Route::get('/detail-documen-mutu/{id}', [\App\Http\Controllers\WelcomeController::class, 'detailDokumenMutu'])->name('welcome.detail-dokumen-mutu');
 
@@ -35,8 +37,8 @@ Route::controller(AuthController::class)
     });
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['custom-auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('/pengumuman', \App\Http\Controllers\PengumumanController::class);
     Route::resource('/penelitian', \App\Http\Controllers\PenelitianController::class)->except(['show']);
     Route::resource('/pengabdian', \App\Http\Controllers\PengabdianController::class)->except(['show']);

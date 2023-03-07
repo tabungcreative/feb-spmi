@@ -8,7 +8,7 @@
     </nav>
     @include('component.carousel')
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-5">
         <h3 class="text-success"> Dokumen {{ $penjaminanMutu->nama }}</h3>
         <div class="d-flex align-items-center flex-row justify-content-between">
             <form method="get" action="">
