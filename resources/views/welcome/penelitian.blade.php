@@ -30,7 +30,7 @@
                     <tbody class="table-border-bottom-0">
                     @foreach($penelitian as $value)
                     <tr>
-                        <td><strong>#</strong></td>
+                        <td><strong>{{ $loop->iteration + $penelitian->firstItem() - 1 }}</strong></td>
                         <td><strong>{{ $value->judul }}</strong></td>
                         <td>{{ $value->tanggal_mulai }}</td>
                         <td>{{ $value->tanggal_selesai }}</td>
